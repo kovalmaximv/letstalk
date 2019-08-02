@@ -1,45 +1,51 @@
 package NeuroActivity.letstalk.controller;
 
 
+import NeuroActivity.letstalk.domain.Think;
+import NeuroActivity.letstalk.repository.ThinkRepo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("thinks")
 public class ThinkController {
 
-    private List<Map<String, String>> thinks = new ArrayList<Map<String, String>>() {{
-        add(new HashMap<String, String>() {{ put("id", "1"); put("text", "First message"); }});
-        add(new HashMap<String, String>() {{ put("id", "2"); put("text", "Second message"); }});
-        add(new HashMap<String, String>() {{ put("id", "3"); put("text", "Third message"); }});
-    }};
+    private final ThinkRepo thinkRepo;
+
+    @Autowired
+    public ThinkController(ThinkRepo thinkRepo) {
+        this.thinkRepo = thinkRepo;
+    }
 
     @GetMapping
-    public List<Map<String, String>> getListOfThinks(){
-        return thinks;
+    public List<Think> getListOfThinks(){
+        return thinkRepo.findAll();
     }
 
     @GetMapping("{id}")
-    public String getOneThink(@PathVariable int id){
-        return thinks.get(id).get("text");
+    public Think getOneThink(@PathVariable("id") Think think){
+        return think;
     }
 
     @PostMapping
-    public String createThink(String think){
-        return think + " created";
+    public Think createThink(@RequestBody Think think){
+        think.setDate(LocalDateTime.now());
+        return thinkRepo.save(think);
     }
 
     @PutMapping("{id}")
-    public String changeThink(@PathVariable int id, String think){
-        return "Think " + id + " changed";
+    public Think changeThink(@PathVariable("id") Think thinkDatabase, @RequestBody Think thinkUser){
+        BeanUtils.copyProperties(thinkUser, thinkDatabase, "id");
+
+        return thinkRepo.save(thinkDatabase);
     }
 
     @DeleteMapping("{id}")
-    public String deleteThink(@PathVariable int id){
-        return "Think " + id + " deleted";
+    public void deleteThink(@PathVariable("id") Think think){
+        thinkRepo.delete(think);
     }
 }
