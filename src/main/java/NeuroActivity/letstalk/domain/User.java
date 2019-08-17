@@ -1,24 +1,45 @@
 package NeuroActivity.letstalk.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
-@Table(name = "usr")
-@ToString(of = {"id", "nickname"})
+@Table(name = "usr1")
+@ToString(of = {"id", "username"})
 @EqualsAndHashCode(of = {"id"})
-public class User {
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
-    private String surname;
     @Column(unique = true)
-    private String nickname;
+    private String username;
+    private String password;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyy-mm-dd HH:mm")
     private LocalDateTime lastVisit;
+
+    @ElementCollection(targetClass = UsersRoles.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<UsersRoles> roles;
+
+    public User(){}
+
+    public Set<UsersRoles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UsersRoles> roles) {
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;
@@ -28,32 +49,49 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getSurname() {
-        return surname;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getNickname() {
-        return nickname;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public LocalDateTime getLastVisit() {
         return lastVisit;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setLastVisit(LocalDateTime lastVisit) {

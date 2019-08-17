@@ -5,13 +5,15 @@ import NeuroActivity.letstalk.domain.Think;
 import NeuroActivity.letstalk.repository.ThinkRepo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("thinks")
+@RequestMapping("/thinks")
 public class ThinkController {
 
     private final ThinkRepo thinkRepo;
@@ -34,6 +36,7 @@ public class ThinkController {
     @PostMapping
     public Think createThink(@RequestBody Think think){
         think.setDate(LocalDateTime.now());
+        System.out.println(think.getId() + "|" + think.getDate() + "|" + think.getText());
         return thinkRepo.save(think);
     }
 
@@ -47,5 +50,11 @@ public class ThinkController {
     @DeleteMapping("{id}")
     public void deleteThink(@PathVariable("id") Think think){
         thinkRepo.delete(think);
+    }
+
+    @MessageMapping("/changeThink")
+    @SendTo("/topic/activityThink")
+    public Think changeThink(Think think){
+        return thinkRepo.save(think);
     }
 }

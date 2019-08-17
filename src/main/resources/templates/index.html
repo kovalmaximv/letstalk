@@ -4,17 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <title>letstalk</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <script th:inline="javascript">
+        var frontData = [[${frontData}]];
+    </script>
 </head>
 <body>
     <h3>lets talk</h3>
-    <h4 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h4>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
-
     <div id="app"></div>
-    <script src="../static/js/thinklist.js"></script>
+<!--script th:src="${isDevMode} ? 'http://localhost:8000/thinklist.js' : '/js/main.js'"></script-->
+    <script th:src="'http://localhost:8000/main.js'"></script>
 </body>
 </html>
