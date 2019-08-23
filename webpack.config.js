@@ -28,14 +28,33 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
+            },
+            {
+                test: /\.s(c|a)ss$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            implementation: require('sass'),
+                            fiber: require('fibers'),
+                            indentedSyntax: true // optional
+                        }
+                    }
+                ]
             }
-        ]
+        ],
+
     },
+
+
     plugins: [
         new VueLoaderPlugin()
     ],
     resolve: {
         modules: [
+            path.join(__dirname, 'src'),
             path.join(__dirname, 'src', 'main', 'resources', 'static', 'js'),
             path.join(__dirname, 'node_modules'),
         ],

@@ -1,20 +1,19 @@
 <template>
-    <div style="position: relative; width: 300px">
-        <new-think-form :thinks="thinks" :thinkEdit="think"/>
-        <one-think v-for="think in thinks"
+    <v-layout align-space-around justify-start column>
+        <new-think-form class="mx-12" :thinkEdit="think"/>
+        <one-think v-for="think in sortedThinks"
                    :key="think.id"
                    :thinkArg = "think"
-                   :editThink="editThink"
-                   :deleteThink="deleteThink"
-                   :thinks="thinks"/>
-    </div>
+                   :editThink="editThink" />
+    </v-layout>
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
     import onethink from 'components/thinks/OneThink.vue'
     import newthinkform from 'components/thinks/NewThinkForm.vue'
+
     export default {
-        props: ['thinks'],
         components:{
             'one-think': onethink,
             'new-think-form': newthinkform
@@ -24,16 +23,10 @@
                 think: null
             }
         },
+        computed: mapGetters(['sortedThinks']),
         methods: {
             editThink(thinkArg) {
                 this.think = thinkArg;
-            },
-            deleteThink(thinkArg){
-                this.$resource('/thinks{/id}').remove({id: thinkArg.id}).then(result => {
-                    if (result.ok) {
-                        this.thinks.splice(thinkArg.id, 1)
-                    }
-                })
             }
 
         }

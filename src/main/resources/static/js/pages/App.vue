@@ -1,16 +1,33 @@
 <template>
-    <div>
-        <div v-if="profile">
-            <div>{{profile.username}} <a href="/logout">выход</a> </div>
-            <thinks-list :thinks = "thinks"/>
+    <v-app>
+        <v-app-bar app clipped-left>
+            <v-toolbar-title>Let's talk</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <div v-if="profile">
+                {{profile.username}}
+                <v-btn icon  href="/logout">
+                    <v-icon>exit_to_app</v-icon>
+                </v-btn>
             </div>
-        <div v-else>
-            <div>Необходимо <a href="/login">авторизоваться</a> </div>
-        </div>
-    </div>
+        </v-app-bar>
+        <v-content class="mx-12">
+            <v-container v-if="profile">
+                <thinks-list/>
+            </v-container>
+            <v-container v-else>
+                <div>Необходимо <a href="/login">авторизоваться</a> </div>
+            </v-container>
+        </v-content>
+
+        <v-footer app>
+            <v-spacer></v-spacer>
+            <span >Koval Maxim &copy; 2019</span>
+        </v-footer>
+    </v-app>
 </template>
 
 <script>
+    import { mapState, mapMutations } from 'vuex'
     import thinkslist from '../components/thinks/ThinkList.vue'
     import { addHandler } from "util/websocket";
 
@@ -18,26 +35,26 @@
         components:{
             'thinks-list': thinkslist
         },
-        data() {
-            return {
-                thinks: frontData.thinks,
-                profile: frontData.profile
-            }
-        },
+        computed: mapState(['profile']),
+        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
         created() {
             addHandler(data => {
-                var index = -1
-
-                for(var i = 0; i < this.thinks.length; i++) {
-                    if (this.thinks[i].id === data.id) {
-                        index = i
+                if(data.objectType === 'THINK'){
+                    switch (data.eventType) {
+                        case 'CREATE':
+                            this.addMessageMutation(data.body)
+                            break
+                        case 'UPDATE':
+                            this.updateMessageMutation(data.body)
+                            break
+                        case 'REMOVE':
+                            this.removeMessageMutation(data.body)
+                            break
+                        default:
+                            console.error('Event type is unknown "${data.eventType}"')
                     }
-                }
-
-                if(index > -1){
-                    this.thinks.splice(index, 1, data)
                 }else{
-                    this.thinks.push(data)
+                    console.error('Object type is unknown "${data.objectType}"')
                 }
             })
         }

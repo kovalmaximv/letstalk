@@ -3,15 +3,23 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <title>letstalk</title>
-    <script th:inline="javascript">
-        var frontData = [[${frontData}]];
-    </script>
+
 </head>
 <body>
     <h3>lets talk</h3>
     <div id="app"></div>
-<!--script th:src="${isDevMode} ? 'http://localhost:8000/thinklist.js' : '/js/main.js'"></script-->
+
+    <script th:inline="javascript">
+        var frontData = [[${frontData}]];
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
     <script th:src="'http://localhost:8000/main.js'"></script>
 </body>
 </html>

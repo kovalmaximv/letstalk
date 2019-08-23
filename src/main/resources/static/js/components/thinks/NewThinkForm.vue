@@ -1,15 +1,21 @@
 <template>
-    <div>
-        <input type="text" placeholder="WriteSomething" v-model="text">
-        <input type="button" value="Save" @click="save">
-    </div>
+    <v-layout row>
+        <v-text-field
+                label="New think"
+                placeholder="WriteSomething"
+                v-model="text"
+        />
+        <v-btn @click="save">
+            Save
+        </v-btn>
+    </v-layout>
 </template>
 
 <script>
-    import { sendThink } from "util/websocket";
+    import { mapActions } from 'vuex'
 
     export default {
-        props: ['thinks', 'thinkEdit'],
+        props: ['thinkEdit'],
         data() {
             return {
                 text: '',
@@ -23,32 +29,18 @@
             }
         },
         methods:{
+            ...mapActions(['addMessageAction', 'updateMessageAction']),
             save() {
-                sendThink({id: this.id, text: this.text})
-
-                this.text = '';
-                this.id = ''
-
-                /*const think = {text: this.text};
+                const think = {id: this.id, text: this.text};
 
                 if(this.id){
-                    this.$resource('/thinks{/id}').update({id: this.id}, think).then(result =>
-                        result.json().then(data=>{
-                            for(var i = 0; i < this.thinks.length; i++){
-                                if(this.thinks[i].id === data.id){
-                                    this.thinks.splice(i,1,data);
-                                }
-                            }
-                        })
-                    )
+                    this.updateMessageAction(think)
                 }else{
-                    this.$resource('/thinks{/id}').save({}, think).then(result =>
-                        this.thinks.push(result.body)
-                    );
+                    this.addMessageAction(think)
                 }
 
-                this.text = '';
-                this.id = ''*/
+                this.text = ''
+                this.id = ''
             }
         }
     }

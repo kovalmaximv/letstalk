@@ -1,6 +1,7 @@
 package NeuroActivity.letstalk.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -13,10 +14,13 @@ import java.time.LocalDateTime;
 public abstract class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.id.class)
     protected Long id;
+    @JsonView(Views.IdText.class)
     protected String text;
     @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyy-mm-dd HH:mm")
+    @JsonView(Views.FullPost.class)
     protected LocalDateTime date;
 
     public Long getId() {
