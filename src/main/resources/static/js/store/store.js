@@ -10,7 +10,7 @@ export default new Vuex.Store({
         profile: frontData.profile
     },
     getters: {
-        sortedThinks: state => state.thinks.sort((a,b) => -(a.id - b.id))
+        sortedThinks: state => (state.thinks || []).sort((a,b) => -(a.id - b.id))
     },
     mutations: {
         addMessageMutation(state, think){
@@ -58,7 +58,7 @@ export default new Vuex.Store({
             commit('updateMessageMutation', think)
         },
         async removeMessageAction({commit}, think){
-            const result = await thinksApi.remove(thinkArg.id)
+            const result = await thinksApi.remove(think.id)
 
             if (result.ok) {
                 commit('removeMessageMutation', think)

@@ -1,11 +1,13 @@
 <template>
-    <v-layout align-space-around justify-start column>
-        <new-think-form class="mx-12" :thinkEdit="think"/>
-        <one-think v-for="think in sortedThinks"
-                   :key="think.id"
-                   :thinkArg = "think"
-                   :editThink="editThink" />
-    </v-layout>
+    <v-container>
+        <v-layout align-space-around justify-start column>
+            <new-think-form class="mx-12" :thinkEdit="think"/>
+            <one-think v-for="think in sortedThinks"
+                       :key="think.id"
+                       :thinkArg = "think"
+                       :editThink="editThink" />
+        </v-layout>
+    </v-container>
 </template>
 
 <script>

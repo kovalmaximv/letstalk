@@ -1,6 +1,7 @@
 import Vue from 'vue'
-import 'api/resource'
 import '@babel/polyfill'
+import 'api/resource'
+import router from 'router/router'
 import store from 'store/store'
 import vuetify from 'plugins/vuetify'
 import VueResource from 'vue-resource'
@@ -19,5 +20,6 @@ new Vue({
         theme: { dark: true },
     }),
     store,
+    router,
     render: h => h(App)
 }).$mount('#app')

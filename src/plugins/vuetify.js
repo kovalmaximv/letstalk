@@ -4,6 +4,7 @@ import Vuetify, {
     VAppBar,
     VToolbarTitle,
     VBtn,
+    VImg,
     VIcon,
     VTextField,
     VSpacer,
@@ -16,6 +17,7 @@ import Vuetify, {
     VCardActions,
     VLayout,
     VRating,
+    VFlex,
     VToolbar,
 } from 'vuetify/lib'
 import { Ripple } from 'vuetify/lib/directives'
@@ -26,6 +28,7 @@ Vue.use(Vuetify, {
         VAppBar,
         VToolbarTitle,
         VTextField,
+        VImg,
         VBtn,
         VIcon,
         VSpacer,
@@ -38,6 +41,7 @@ Vue.use(Vuetify, {
         VCardActions,
         VLayout,
         VRating,
+        VFlex,
         VToolbar,
     },
     directives: {

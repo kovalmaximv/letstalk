@@ -23,7 +23,7 @@ public class User implements UserDetails, Serializable {
     @Column(unique = true)
     private String username;
     private String password;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyy-mm-dd HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm dd-mm-yyyy")
     private LocalDateTime lastVisit;
 
     @ElementCollection(targetClass = UsersRoles.class, fetch = FetchType.EAGER)

@@ -1,22 +1,26 @@
 <template>
     <v-app>
         <v-app-bar app clipped-left>
-            <v-toolbar-title>Let's talk</v-toolbar-title>
+            <v-toolbar-title class="mr-4">Let's talk</v-toolbar-title>
+            <v-btn text
+                   v-if="profile"
+                   :disabled="$route.path === '/'"
+                   @click="showThinks">
+                Thinks
+            </v-btn>
             <v-spacer></v-spacer>
-            <div v-if="profile">
+            <v-btn text
+                   v-if="profile"
+                   :disabled="$route.path === '/profile'"
+                   @click="showProfile">
                 {{profile.username}}
-                <v-btn icon  href="/logout">
-                    <v-icon>exit_to_app</v-icon>
-                </v-btn>
-            </div>
+            </v-btn>
+            <v-btn icon  href="/logout">
+                <v-icon>exit_to_app</v-icon>
+            </v-btn>
         </v-app-bar>
         <v-content class="mx-12">
-            <v-container v-if="profile">
-                <thinks-list/>
-            </v-container>
-            <v-container v-else>
-                <div>Необходимо <a href="/login">авторизоваться</a> </div>
-            </v-container>
+            <router-view></router-view>
         </v-content>
 
         <v-footer app>
@@ -28,15 +32,19 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex'
-    import thinkslist from '../components/thinks/ThinkList.vue'
     import { addHandler } from "util/websocket";
 
     export default {
-        components:{
-            'thinks-list': thinkslist
-        },
         computed: mapState(['profile']),
-        methods: mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+        methods: {
+            ...mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+            showThinks(){
+                this.$router.push('/')
+            },
+            showProfile(){
+                this.$router.push('/profile')
+            },
+        },
         created() {
             addHandler(data => {
                 if(data.objectType === 'THINK'){
@@ -57,10 +65,14 @@
                     console.error('Object type is unknown "${data.objectType}"')
                 }
             })
+        },
+        beforeMount() {
+            if(!this.profile){
+                this.$router.replace("/auth")
+            }
         }
     }
 </script>
 
 <style>
-
 </style>
