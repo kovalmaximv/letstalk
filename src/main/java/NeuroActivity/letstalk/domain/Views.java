@@ -5,5 +5,7 @@ public class Views {
 
     public interface IdText extends id {}
 
+    public interface FullComment extends IdText {}
+
     public interface FullPost extends IdText {}
 }

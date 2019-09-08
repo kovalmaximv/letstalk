@@ -1,0 +1,39 @@
+{
+  "name": "letstalk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/H4dDock/letstalk",
+  "license": "MIT",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "@stomp/stompjs": "^5.4.2",
+    "sockjs-client": "^1.4.0",
+    "style-loader": "^1.0.0",
+    "vue": "^2.6.10",
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.1.2",
+    "vuetify": "^2.0.11",
+    "vuex": "^3.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@mdi/font": "^4.2.95",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.2.0",
+    "deepmerge": "^4.0.0",
+    "fibers": "^4.0.1",
+    "sass": "^1.22.10",
+    "sass-loader": "^7.3.1",
+    "vue-loader": "^15.7.1",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.6.10",
+    "vue-template-loader": "^1.0.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
+  }
+}

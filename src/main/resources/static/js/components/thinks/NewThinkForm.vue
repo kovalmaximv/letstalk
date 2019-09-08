@@ -4,6 +4,7 @@
                 label="New think"
                 placeholder="WriteSomething"
                 v-model="text"
+                @keyup.enter="save"
         />
         <v-btn @click="save">
             Save

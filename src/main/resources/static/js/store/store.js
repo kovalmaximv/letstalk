@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import thinksApi from 'api/thinks'
+import commentApi from 'api/comment'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        thinks: frontData.thinks,
-        profile: frontData.profile
+        thinks: thinks,
+        ...frontData
     },
     getters: {
         sortedThinks: state => (state.thinks || []).sort((a,b) => -(a.id - b.id))
@@ -38,6 +39,40 @@ export default new Vuex.Store({
                 ]
             }
         },
+        addCommentMutation(state, comment){
+            const updateIndex = state.thinks.findIndex(item => item.id === comment.think.id)
+            const think = state.thinks[updateIndex]
+
+            if(!think.comments.find( it => it.id === comment.id)) {
+                state.thinks = [
+                    ...state.thinks.splice(0, updateIndex),
+                    {
+                        ...think,
+                        comments: [
+                            ...think.comments,
+                            comment
+                        ]
+                    },
+                    ...state.thinks.splice(updateIndex + 1)
+                ]
+            }
+        },
+        addThinkPageMutation(state, thinks){
+            const targetThinks = state.thinks
+                .concat(thinks)
+                .reduce((res, val) =>{ //reduce the same thinks
+                    res[val.id] = val //put think in map, when key is think.id
+                    return res
+                }, {})
+
+            state.thinks = Object.values(targetThinks)
+        },
+        updateTotalPagesMutation(state, totalPages){
+            state.totalPages = totalPages
+        },
+        updateCurrentPageMutation(state, currentPage){
+            state.currentPage = currentPage
+        }
     },
     actions: {
         async addMessageAction({commit, state}, think){
@@ -64,5 +99,18 @@ export default new Vuex.Store({
                 commit('removeMessageMutation', think)
             }
         },
+        async addCommentAction({commit, state}, comment){
+            const response = await commentApi.add(comment)
+            const data = await response.json()
+            commit('addCommentMutation', data)
+        },
+        async loadPageAction({commit, state}){
+            const response = await thinksApi.page(state.currentPage + 1)
+            const data = await response.json()
+
+            commit('addThinkPageMutation', data.thinks)
+            commit('updateTotalPagesMutation', data.totalPages)
+            commit('updateCurrentPageMutation', Math.min(data.currentPage, data.totalPages - 1))
+        }
     }
 })

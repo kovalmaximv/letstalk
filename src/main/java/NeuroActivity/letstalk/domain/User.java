@@ -1,6 +1,8 @@
 package NeuroActivity.letstalk.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,12 +18,17 @@ import java.util.Set;
 @Table(name = "usr1")
 @ToString(of = {"id", "username"})
 @EqualsAndHashCode(of = {"id"})
+@Data
 public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue
+    @JsonView(Views.IdText.class)
     private Long id;
     @Column(unique = true)
+    @JsonView(Views.IdText.class)
     private String username;
+    @JsonView(Views.IdText.class)
+    private String userpic;
     private String password;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm dd-mm-yyyy")
     private LocalDateTime lastVisit;
@@ -73,14 +80,6 @@ public class User implements UserDetails, Serializable {
         return true;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public LocalDateTime getLastVisit() {
-        return lastVisit;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
@@ -92,9 +91,5 @@ public class User implements UserDetails, Serializable {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setLastVisit(LocalDateTime lastVisit) {
-        this.lastVisit = lastVisit;
     }
 }

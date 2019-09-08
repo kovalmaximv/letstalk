@@ -1,4 +1,8 @@
 package NeuroActivity.letstalk.repository;
 
-public interface CommentRepo {
+import NeuroActivity.letstalk.domain.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CommentRepo extends JpaRepository<Comment, Long> {
+
 }

@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-app-bar app clipped-left>
-            <v-toolbar-title class="mr-4">Let's talk</v-toolbar-title>
+            <v-toolbar-title >Let's talk</v-toolbar-title>
             <v-btn text
                    v-if="profile"
                    :disabled="$route.path === '/'"
@@ -19,8 +19,10 @@
                 <v-icon>exit_to_app</v-icon>
             </v-btn>
         </v-app-bar>
-        <v-content class="mx-12">
-            <router-view></router-view>
+        <v-content>
+            <v-container class="fill-height" fluid>
+                <router-view></router-view>
+            </v-container>
         </v-content>
 
         <v-footer app>
@@ -37,7 +39,12 @@
     export default {
         computed: mapState(['profile']),
         methods: {
-            ...mapMutations(['addMessageMutation', 'updateMessageMutation', 'removeMessageMutation']),
+            ...mapMutations([
+                'addMessageMutation',
+                'updateMessageMutation',
+                'removeMessageMutation',
+                'addCommentMutation'
+            ]),
             showThinks(){
                 this.$router.push('/')
             },
@@ -57,6 +64,14 @@
                             break
                         case 'REMOVE':
                             this.removeMessageMutation(data.body)
+                            break
+                        default:
+                            console.error('Event type is unknown "${data.eventType}"')
+                    }
+                }else if(data.objectType === 'COMMENT'){
+                    switch (data.eventType) {
+                        case 'CREATE':
+                            this.addCommentMutation(data.body)
                             break
                         default:
                             console.error('Event type is unknown "${data.eventType}"')

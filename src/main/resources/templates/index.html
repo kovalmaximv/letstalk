@@ -10,16 +10,18 @@
 
 </head>
 <body>
-    <h3>lets talk</h3>
-    <div id="app"></div>
+<h3>lets talk</h3>
+<div id="app"></div>
 
-    <script th:inline="javascript">
-        var frontData = [[${frontData}]];
-    </script>
+<script th:inline="javascript">
+    var frontData = [[${frontData}]];
+    var thinks = [# th:utext="${thinks}" /];
+</script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 
-    <script th:src="'http://localhost:8000/main.js'"></script>
+<script th:src="'http://localhost:8000/main.js'"></script>
+<!--script th:src="'/js/main.js'"></script-->
 </body>
 </html>

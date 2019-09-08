@@ -6,6 +6,7 @@
                        :key="think.id"
                        :thinkArg = "think"
                        :editThink="editThink" />
+            <lazy-loader></lazy-loader>
         </v-layout>
     </v-container>
 </template>
@@ -14,9 +15,11 @@
     import { mapGetters } from 'vuex'
     import onethink from 'components/thinks/OneThink.vue'
     import newthinkform from 'components/thinks/NewThinkForm.vue'
+    import LazyLoader from "components/LazyLoader.vue";
 
     export default {
         components:{
+            LazyLoader,
             'one-think': onethink,
             'new-think-form': newthinkform
         },

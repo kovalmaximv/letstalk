@@ -1,13 +1,13 @@
 package NeuroActivity.letstalk.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @MappedSuperclass
 @ToString(of = {"id", "text"})
@@ -24,6 +24,15 @@ public abstract class Post {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyyy-mm-dd HH:mm")
     @JsonView(Views.FullPost.class)
     protected LocalDateTime date;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonView(Views.FullPost.class)
+    private User author;
+
+    @OneToMany(mappedBy = "think", orphanRemoval = true)
+    @JsonView(Views.FullPost.class)
+    private List<Comment> comments;
 
     @JsonView(Views.FullPost.class)
     private String link;
