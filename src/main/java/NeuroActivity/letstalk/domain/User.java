@@ -1,7 +1,6 @@
 package NeuroActivity.letstalk.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,12 +11,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "usr1")
 @ToString(of = {"id", "username"})
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = { "id" })
 @Data
 public class User implements UserDetails, Serializable {
     @Id
@@ -31,7 +31,23 @@ public class User implements UserDetails, Serializable {
     private String userpic;
     private String password;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm dd-mm-yyyy")
+    @JsonView(Views.FullProfile.class)
     private LocalDateTime lastVisit;
+
+    @JsonView(Views.FullProfile.class)
+    @OneToMany(
+            mappedBy = "subscriber",
+            orphanRemoval = true
+    )
+    private Set<UserSubscription> subscriptions = new HashSet<>();
+
+    @JsonView(Views.FullProfile.class)
+    @OneToMany(
+            mappedBy = "channel",
+            orphanRemoval = true,
+            cascade = CascadeType.ALL
+    )
+    private Set<UserSubscription> subscribers = new HashSet<>();
 
     @ElementCollection(targetClass = UsersRoles.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))

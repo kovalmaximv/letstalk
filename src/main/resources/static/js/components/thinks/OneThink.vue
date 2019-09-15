@@ -1,22 +1,10 @@
 <template>
     <v-card class="my-2">
         <v-card-text primary-title>
-            <div>
-                <v-avatar v-if="thinkArg.author && thinkArg.author.userpic" size="48px">
-                    <img
-                            :src="thinkArg.author.userpic"
-                            :alt="thinkArg.author.username"
-                    >
-                </v-avatar>
-                <v-avatar v-else size="48px" color="indigo">
-                    <img
-                            :src="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcv-0ewt7HOXii0rH2Z7Ct6dBzLiL6q7ErolktZQmTVFB77W3'"
-                    >
-                </v-avatar>
-                <span class="pl-3">
-                    {{ authorName }}
-                </span>
-            </div>
+            <user-link
+                :user="thinkArg.author"
+                size="48"
+            ></user-link>
             <div class="pt-3">
                 {{thinkArg.text}}
             </div>
@@ -36,17 +24,14 @@
     import { mapActions } from 'vuex'
     import Media from "components/media/Media.vue";
     import CommentList from "../comment/CommentList.vue";
+    import UserLink from "components/UserLink.vue";
 
     export default {
         props: ['thinkArg', 'editThink'],
         components:{
+            UserLink,
             CommentList,
             'media': Media,
-        },
-        computed: {
-            authorName()  {
-                return this.thinkArg.author ? this.thinkArg.author.username : 'unknown'
-            }
         },
         methods: {
             ...mapActions(['removeMessageAction']),

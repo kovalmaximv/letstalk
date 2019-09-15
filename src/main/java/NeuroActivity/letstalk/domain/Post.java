@@ -30,7 +30,7 @@ public abstract class Post {
     @JsonView(Views.FullPost.class)
     private User author;
 
-    @OneToMany(mappedBy = "think", orphanRemoval = true)
+    @OneToMany(mappedBy = "think", orphanRemoval = false)
     @JsonView(Views.FullPost.class)
     private List<Comment> comments;
 

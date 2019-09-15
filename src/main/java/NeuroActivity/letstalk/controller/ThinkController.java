@@ -31,9 +31,10 @@ public class ThinkController {
     @GetMapping
     @JsonView(Views.FullPost.class)
     public ThinkPageDTO getListOfThinks(
+            @AuthenticationPrincipal User user,
             @PageableDefault(size = THINK_PER_PAGE, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable
     ){
-        return thinkService.findAll(pageable);
+        return thinkService.findForUser(pageable, user);
     }
 
     @GetMapping("{id}")

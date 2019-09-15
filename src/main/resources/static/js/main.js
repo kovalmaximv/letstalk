@@ -12,9 +12,6 @@ if(frontData.profile){
     connect()
 }
 
-
-/*Vue.use(Vuetify)*/
-
 new Vue({
     vuetify: new Vuetify({
         theme: { dark: true },

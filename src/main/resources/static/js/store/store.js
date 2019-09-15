@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        thinks: thinks,
+        thinks,
+        profile,
         ...frontData
     },
     getters: {
