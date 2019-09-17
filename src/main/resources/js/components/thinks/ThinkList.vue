@@ -13,9 +13,9 @@
 
 <script>
     import { mapGetters } from 'vuex'
-    import onethink from 'components/thinks/OneThink.vue'
-    import newthinkform from 'components/thinks/NewThinkForm.vue'
-    import LazyLoader from "components/LazyLoader.vue";
+    import onethink from '../../components/thinks/OneThink.vue'
+    import newthinkform from '../../components/thinks/NewThinkForm.vue'
+    import LazyLoader from "../../components/LazyLoader.vue";
 
     export default {
         components:{

@@ -34,7 +34,7 @@
 
 <script>
     import { mapState, mapMutations } from 'vuex'
-    import { addHandler } from "util/websocket";
+    import { addHandler } from "../util/websocket";
 
     export default {
         computed: mapState(['profile']),
