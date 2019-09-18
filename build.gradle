@@ -35,7 +35,7 @@ repositories {
     mavenCentral()
 }
 
-node{
+node {
     download = true
 }
 

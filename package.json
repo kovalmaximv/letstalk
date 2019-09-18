@@ -17,8 +17,11 @@
     "vue-resource": "^1.5.1",
     "vue-router": "^3.1.2",
     "vuetify": "^2.0.11",
-    "vuex": "^3.1.1",
+    "vuex": "^3.1.1"
 
+
+  },
+  "devDependencies": {
     "@babel/core": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
     "@mdi/font": "^4.2.95",
@@ -37,12 +40,5 @@
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0",
     "webpack-merge": "^4.2.2"
-  },
-  "devDependencies": {
-
-  },
-  "engines": {
-    "node": "12.9.1",
-    "npm": "6.10.2"
   }
 }
